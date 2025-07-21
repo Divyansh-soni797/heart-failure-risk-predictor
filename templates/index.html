@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Heart Failure Risk Predictor</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #e0f7fa, #f0fff4);
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px 40px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #00796b;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        input {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        input[type="submit"] {
+            grid-column: span 2;
+            background-color: #00796b;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #004d40;
+        }
+
+        .result {
+            grid-column: span 2;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .low-risk {
+            color: #2e7d32;
+        }
+
+        .high-risk {
+            color: #c62828;
+        }
+
+        button[type="reset"]:hover {
+            background-color: #b0bec5;
+        }
+
+        input[type="submit"],
+        button[type="reset"] {
+            transition: all 0.2s ease-in-out;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #004d40;
+        }
+
+        input[type="submit"]:active {
+            background-color: #00332c;
+        }
+
+        button[type="reset"]:hover {
+            background-color: #b0bec5;
+        }
+
+        button[type="reset"]:active {
+            background-color: #90a4ae;
+        }
+
+        input[type="submit"],
+        button[type="reset"] {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="submit"]:active,
+        button[type="reset"]:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>💓 Heart Failure Risk Predictor</h2>
+        <form action="/predict" method="POST">
+            <input type="text" name="age" placeholder="Age" required value="{{ inputs.get('age', '') }}">
+            <input type="text" name="anaemia" placeholder="Anaemia (0 or 1)" required
+                value="{{ inputs.get('anaemia', '') }}">
+            <input type="text" name="creatinine_phosphokinase" placeholder="CPK Level" required
+                value="{{ inputs.get('creatinine_phosphokinase', '') }}">
+            <input type="text" name="diabetes" placeholder="Diabetes (0 or 1)" required
+                value="{{ inputs.get('diabetes', '') }}">
+            <input type="text" name="ejection_fraction" placeholder="Ejection Fraction" required
+                value="{{ inputs.get('ejection_fraction', '') }}">
+            <input type="text" name="high_blood_pressure" placeholder="High BP (0 or 1)" required
+                value="{{ inputs.get('high_blood_pressure', '') }}">
+            <input type="text" name="platelets" placeholder="Platelets" required
+                value="{{ inputs.get('platelets', '') }}">
+            <input type="text" name="serum_creatinine" placeholder="Serum Creatinine" required
+                value="{{ inputs.get('serum_creatinine', '') }}">
+            <input type="text" name="serum_sodium" placeholder="Serum Sodium" required
+                value="{{ inputs.get('serum_sodium', '') }}">
+            <input type="text" name="sex" placeholder="Sex (1=Male, 0=Female)" required
+                value="{{ inputs.get('sex', '') }}">
+            <input type="text" name="smoking" placeholder="Smoking (0 or 1)" required
+                value="{{ inputs.get('smoking', '') }}">
+            <input type="text" name="time" placeholder="Follow-up Time" required value="{{ inputs.get('time', '') }}">
+
+            <div style="grid-column: span 2; display: flex; gap: 10px; justify-content: center;">
+                <input type="submit" value="🔍 Predict Risk"
+                    style="background-color:#00796b; color:white; font-weight:bold; border:none; padding:10px 20px; border-radius:8px; cursor:pointer;">
+
+                <a href="/reset"
+                    style="background-color:#00796b; color:white; font-weight:bold; border:none; padding:10px 45px; border-radius:8px; text-decoration:none; display:inline-block; text-align:center;">🔄 Reset</a>
+            </div>
+
+
+
+            <div
+                class="result {% if prediction_text and 'Low risk' in prediction_text %}low-risk{% elif prediction_text %}high-risk{% endif %}">
+                {% if prediction_text %}
+                <p>{{ prediction_text }}</p>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: heart-failure-risk
+    env: python
+    buildCommand: ""
+    startCommand: "python app.py"
